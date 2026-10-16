@@ -1,12 +1,38 @@
 [project]
 name = "python-stripe-example"
 version = "0.0.0"
-description = "Example project showing how to integrate Stripe payments into Python applications"
+description = "Create a Stripe Checkout Session from Python"
 readme = "README.md"
+requires-python = ">=3.14"
 dependencies = [
-    "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
-    "python-dotenv>=1.2.1",
     "stripe>=14.1.0",
 ]
-requires-python = "==3.14.2"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D203", # `one-blank-line-before-class` conflicts with `no-blank-line-before-class` (D211)
+    "D213", # `multi-line-summary-second-line` conflicts with `multi-line-summary-first-line` (D212)
+    "COM812", # `missing-trailing-comma` conflicts with formatter
+    "CPY001", # the LICENSE file holds the copyright, not each source file
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "S101", # pytest uses a bare `assert`
+    "INP001", # pytest collects tests without a package
+    "S106", # a test passes a fake key
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
